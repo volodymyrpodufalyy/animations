@@ -20,19 +20,12 @@ export function Cover(props: CoverProps): JSX.Element {
   console.log(MAX_HEADER_HEIGHT, 'MAX_HEADER_HEIGHT');
 
   const animatedStyles = useAnimatedStyle(() => {
-    // const height = interpolate(
-    //   scrollY.value,
-    //   [0, MAX_HEADER_HEIGHT],
-    //   [HEADER_HEIGHT, 0],
-    //   Extrapolate.CLAMP,
-    // );
     const scale = interpolate(scrollY.value, [-MAX_HEADER_HEIGHT, 0], [4, 1], {
       extrapolateRight: Extrapolation.CLAMP,
     });
 
     return {
       transform: [{scale: scale}],
-      // height: height,
     };
   });
 

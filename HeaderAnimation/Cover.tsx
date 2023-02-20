@@ -1,12 +1,13 @@
 import React from 'react';
 import {Image, StyleSheet} from 'react-native';
 import Animated, {
+  Extrapolate,
   Extrapolation,
   SharedValue,
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import {HEADER_DELTA, MAX_HEADER_HEIGHT} from './Constants';
+import {HEADER_DELTA} from './Constants';
 
 interface CoverProps {
   animatedHeight: SharedValue<number>;
@@ -17,15 +18,21 @@ export const HEADER_HEIGHT = 280;
 export function Cover(props: CoverProps): JSX.Element {
   const scrollY = props.animatedHeight;
 
-  console.log(MAX_HEADER_HEIGHT, 'MAX_HEADER_HEIGHT');
-
   const animatedStyles = useAnimatedStyle(() => {
-    const scale = interpolate(scrollY.value, [-MAX_HEADER_HEIGHT, 0], [4, 1], {
+    const scale = interpolate(scrollY.value, [-HEADER_HEIGHT, 0], [4, 1], {
       extrapolateRight: Extrapolation.CLAMP,
     });
 
+    const height = interpolate(
+      scrollY.value,
+      [0, HEADER_HEIGHT],
+      [HEADER_HEIGHT, 0],
+      Extrapolate.CLAMP,
+    );
+
     return {
       transform: [{scale: scale}],
+      height,
     };
   });
 
@@ -58,8 +65,7 @@ export function Cover(props: CoverProps): JSX.Element {
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    height: HEADER_HEIGHT,
-    backgroundColor: '#be8ebf',
+    backgroundColor: 'pink',
   },
   image: {
     ...StyleSheet.absoluteFillObject,

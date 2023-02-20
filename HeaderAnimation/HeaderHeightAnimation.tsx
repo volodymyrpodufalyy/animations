@@ -1,13 +1,5 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import type {PropsWithChildren} from 'react';
 import React from 'react';
-import {StatusBar, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import Animated, {
   Extrapolation,
   interpolate,
@@ -16,34 +8,20 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated';
 import {
-  Colors,
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import {Cover, HEADER_HEIGHT} from './Cover';
+import {Section} from './Section';
 import {Header} from './Header';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+const AnimatedScrollView = Animated.createAnimatedComponent(ScrollView);
 
-function Section({children, title}: SectionProps): JSX.Element {
-  return (
-    <View style={styles.sectionContainer}>
-      <Text style={[styles.sectionTitle, {color: Colors.white}]}>{title}</Text>
-      <Text style={[styles.sectionDescription, {color: Colors.light}]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): JSX.Element {
+const HeaderHeightAnimation = () => {
   const scrollY = useSharedValue(0);
-  const scrollHandler = useAnimatedScrollHandler({
-    onScroll: e => {
-      scrollY.value = e.contentOffset.y;
-    },
+
+  const scrollHandler = useAnimatedScrollHandler(event => {
+    scrollY.value = event.contentOffset.y;
   });
 
   const animatedTextStyles = useAnimatedStyle(() => {
@@ -60,15 +38,13 @@ function App(): JSX.Element {
   });
 
   return (
-    <View style={{flex: 1, backgroundColor: '#272732'}}>
-      <StatusBar barStyle={'dark-content'} backgroundColor={Colors.darker} />
+    <View style={{flex: 1}}>
       <Cover animatedHeight={scrollY} />
       <Header animatedHeight={scrollY} />
-      <Animated.ScrollView
-        style={{flex: 1}}
+      <AnimatedScrollView
         showsVerticalScrollIndicator={false}
-        scrollEventThrottle={1}
-        onScroll={scrollHandler}>
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}>
         <View style={styles.cover}>
           <View style={styles.artistContainer}>
             <Animated.Text style={[styles.artist, animatedTextStyles]}>
@@ -84,7 +60,7 @@ function App(): JSX.Element {
           handler
         </Section>
         <Section title="Step One">
-          Edit <Text style={styles.highlight}>App.tsx</Text> to change this
+          Edit <Text style={{fontWeight: '700'}}>App.tsx</Text> to change this
           screen and then come back to see your edits.
         </Section>
         <Section title="See Your Changes">
@@ -96,15 +72,21 @@ function App(): JSX.Element {
         <Section title="Learn More">
           Read the docs to discover what to do next
         </Section>
-      </Animated.ScrollView>
+        <Section title="See Your Changes">
+          <ReloadInstructions />
+        </Section>
+        <Section title="Debug">
+          <DebugInstructions />
+        </Section>
+        <Section title="Learn More">
+          Read the docs to discover what to do next
+        </Section>
+      </AnimatedScrollView>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: '#272732',
-  },
   cover: {
     height: HEADER_HEIGHT,
   },
@@ -120,26 +102,6 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     fontWeight: 'bold',
   },
-  sectionContainer: {
-    paddingVertical: 32,
-    paddingHorizontal: 24,
-    backgroundColor: '#272732',
-    borderColor: '#fff',
-    borderBottomWidth: 1,
-    borderStyle: 'solid',
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
 });
 
-export default App;
+export default HeaderHeightAnimation;

@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface HeaderAnimationTests : XCTestCase
+@interface ParallaxEffectTests : XCTestCase
 
 @end
 
-@implementation HeaderAnimationTests
+@implementation ParallaxEffectTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL (^)(UIView *view))test
 {

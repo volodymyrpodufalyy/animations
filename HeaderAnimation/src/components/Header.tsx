@@ -5,13 +5,13 @@ import Animated, {
   interpolateColor,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import {HEADER_HEIGHT} from './Cover';
+import {HEADER_HEIGHT} from '../constants';
 
 interface HeaderProps {
   animatedHeight: SharedValue<number>;
 }
 
-export function Header(props: HeaderProps): JSX.Element {
+export function Header(props: HeaderProps) {
   const scrollY = props.animatedHeight;
 
   const animatedStyles = useAnimatedStyle(() => {

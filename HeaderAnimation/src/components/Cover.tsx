@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, StyleSheet} from 'react-native';
+import {Image, ImageSourcePropType, StyleSheet} from 'react-native';
 import Animated, {
   Extrapolate,
   Extrapolation,
@@ -7,15 +7,14 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
-import {HEADER_DELTA} from './Constants';
+import {HEADER_DELTA, HEADER_HEIGHT} from '../constants';
 
 interface CoverProps {
+  image: ImageSourcePropType;
   animatedHeight: SharedValue<number>;
 }
 
-export const HEADER_HEIGHT = 280;
-
-export function Cover(props: CoverProps): JSX.Element {
+export function Cover(props: CoverProps) {
   const scrollY = props.animatedHeight;
 
   const animatedStyles = useAnimatedStyle(() => {
@@ -48,10 +47,7 @@ export function Cover(props: CoverProps): JSX.Element {
 
   return (
     <Animated.View style={[styles.container, animatedStyles]}>
-      <Image
-        style={[styles.image]}
-        source={require('./assets/Aang_at_Jasmine_Dragon.webp')}
-      />
+      <Image style={[styles.image]} source={props.image} />
       <Animated.View
         style={[
           {...StyleSheet.absoluteFillObject, backgroundColor: '#272732'},
@@ -65,7 +61,6 @@ export function Cover(props: CoverProps): JSX.Element {
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'pink',
   },
   image: {
     ...StyleSheet.absoluteFillObject,

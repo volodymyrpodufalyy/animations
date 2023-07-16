@@ -1,4 +1,4 @@
-package com.headeranimation;
+package com.parallaxeffect;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
